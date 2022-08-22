@@ -1,0 +1,4 @@
+paho-mqtt
+Faker
+ciso8601
+python-dotenv

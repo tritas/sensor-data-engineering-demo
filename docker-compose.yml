@@ -1,0 +1,79 @@
+# Simulating S3 storage with Minio, MQTT broker used for simulated data production, kafka
+# as a message bus and spark with jupyter notebook for analysis.
+version: "3.7"
+
+services:
+
+  redpanda:
+    image: vectorized/redpanda:latest
+    command:
+      - redpanda start
+      - --smp 1
+      - --overprovisioned
+      - --node-id 0
+      - --kafka-addr PLAINTEXT://0.0.0.0:29092,OUTSIDE://0.0.0.0:9092
+      - --advertise-kafka-addr PLAINTEXT://redpanda:29092,OUTSIDE://localhost:9092
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+
+  kafka-console:
+    image: vectorized/console:latest
+    container_name: kafka-console
+    depends_on: [redpanda]
+    environment:
+      - KAFKA_BROKERS=redpanda:9092
+    ports:
+      - "8080:8080"
+
+  pyspark-notebook:
+    # https://hub.docker.com/r/jupyter/pyspark-notebook
+    # https://github.com/jupyter/docker-stacks
+    # https://jupyter-docker-stacks.readthedocs.io/en/latest/using/specifics.html#apache-spark
+    image: jupyter/pyspark-notebook:latest
+    container_name: pyspark-notebook
+    restart: unless-stopped
+    ports:
+      - "8888:8888"
+      - "4040:4040"
+      - "4041:4041"
+
+  mosquitto:
+    # https://hub.docker.com/_/eclipse-mosquitto
+    image: eclipse-mosquitto:latest
+    container_name: mosquitto
+    restart: unless-stopped
+    ports:
+      - "1883:1883"
+    volumes:
+      - mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - mosquitto-data:/mosquitto/data
+      - mosquitto-log:/mosquitto/log
+
+  minio:  # https://github.com/minio/minio
+    image: quay.io/minio/minio:latest
+    container_name: minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+      # environment:
+      # MINIO_ROOT_USER: minioadmin
+      # MINIO_ROOT_PASSWORD: minioadmin
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    volumes:
+      - minio-data:/data
+
+volumes:
+  kafka-data:
+  kafka-log:
+  spark-data:
+  spark-log:
+  mosquitto-data:
+  mosquitto-log:
+  minio-data:
