@@ -72,11 +72,39 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# IDEA
 .idea
+.idea_modules
+/.worksheet/
 
-
+# Scala
 *.class
 *.log
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+# sbt specific
+dist/*
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+project/local-plugins.sbt
+.history
+.ensime
+.ensime_cache/
+.sbt-scripted/
+local.sbt
+
+# Bloop
+.bsp
+
+# VS Code
+.vscode/
+
+# Metals
+.bloop/
+.metals/
+metals.sbt
