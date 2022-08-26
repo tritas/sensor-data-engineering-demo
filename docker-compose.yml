@@ -25,17 +25,22 @@ services:
     ports:
       - "8080:8080"
 
-  pyspark-notebook:
-    # https://hub.docker.com/r/jupyter/pyspark-notebook
+  spark-notebook:
+    # https://hub.docker.com/r/jupyter/all-spark-notebook
     # https://github.com/jupyter/docker-stacks
     # https://jupyter-docker-stacks.readthedocs.io/en/latest/using/specifics.html#apache-spark
-    image: jupyter/pyspark-notebook:latest
-    container_name: pyspark-notebook
+    image: jupyter/all-spark-notebook:spark-3.2.0
+    container_name: spark-notebook
     restart: unless-stopped
     ports:
       - "8888:8888"
       - "4040:4040"
       - "4041:4041"
+      - "4042:4042"
+    cpu_count: 3
+    mem_reservation: 3500M
+    volumes:
+      - "$PWD:/home/jovyan/work"
 
   mosquitto:
     # https://hub.docker.com/_/eclipse-mosquitto
@@ -45,9 +50,9 @@ services:
     ports:
       - "1883:1883"
     volumes:
-      - mosquitto.conf:/mosquitto/config/mosquitto.conf
-      - mosquitto-data:/mosquitto/data
-      - mosquitto-log:/mosquitto/log
+      - "./mosquitto.conf:/mosquitto/config/mosquitto.conf"
+      - "mosquitto-data:/mosquitto/data"
+      - "mosquitto-log:/mosquitto/log"
 
   minio: # https://github.com/minio/minio
     image: quay.io/minio/minio:latest
