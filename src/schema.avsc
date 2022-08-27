@@ -1,0 +1,52 @@
+{
+  "doc": "Consolidated sensor data",
+  "type": "record",
+  "name": "consolidated_sensor_sample",
+  "fields": [
+    {
+      "name": "plant",
+      "type": "string",
+      "doc": "Plan unique identifier"
+    },
+    {
+      "name": "sensor_id",
+      "type": "string",
+      "doc": "Sensor unique identifier"
+    },
+    {
+      "name": "sensor_type",
+      "type": "string",
+      "doc": "Sensor type enumeration value"
+    },
+    {
+      "name": "raw_payload",
+      "type": "bytes",
+      "doc": "Raw sensor data retransmission"
+    },
+    {
+      "name": "norm_payload",
+      "type": "bytes",
+      "doc": "Sample payload with normalized fields"
+    },
+    {
+      "name": "quality_status",
+      "type": "int",
+      "doc": "Quality status enumeration"
+    },
+    {
+      "name": "event_time",
+      "type": "timestamp",
+      "doc": "Time the event was created"
+    },
+    {
+      "name": "transmission_time",
+      "type": "timestamp",
+      "doc": "Time the event was transmitted to the broker"
+    },
+    {
+      "name": "normalization_time",
+      "type": "timestamp",
+      "doc": "Time the event was normalized"
+    }
+  ]
+}
