@@ -35,6 +35,13 @@ Scala 3 REPL.
 For more information on the sbt-dotty plugin, see the
 [scala3-example-project](https://github.com/scala/scala3-example-project/blob/main/README.md).
 
+### Development with Scala 3
+
+See for example:
+
+- https://github.com/47deg/spark-scala3-example
+- https://github.com/vincenzobaz/spark-scala3
+
 ## Author
 
 Copyright (c) 2022 Aris Tritas

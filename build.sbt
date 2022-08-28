@@ -1,7 +1,7 @@
-val organization  = "com.tritas"
-val description   = "Sensor Data Engineering"
+val organization = "com.tritas"
+val description = "Sensor Data Engineering"
 // Must match the docker-compose version
-val sparkVersion  = "3.2.0"
+val sparkVersion = "3.2.0"
 val scala3Version = "3.1.3"
 
 lazy val root = project
@@ -9,18 +9,17 @@ lazy val root = project
   .settings(
     name := "sensor-data-eng-demo",
     version := "0.1.0-SNAPSHOT",
-
     scalaVersion := scala3Version,
-
     libraryDependencies ++= Seq(
       // https://mvnrepository.com/artifact/org.apache.spark/spark-avro
       ("org.apache.spark" %% "spark-avro" % sparkVersion).cross(CrossVersion.for3Use2_13),
       ("org.apache.spark" %% "spark-core" % sparkVersion).cross(CrossVersion.for3Use2_13),
       ("org.apache.spark" %% "spark-streaming" % sparkVersion).cross(CrossVersion.for3Use2_13),
       // https://mvnrepository.com/artifact/org.apache.spark/spark-streaming-kafka-0-10
-      ("org.apache.spark" %% "spark-streaming-kafka-0-10" % sparkVersion).cross(CrossVersion.for3Use2_13),
-
-      ("org.apache.spark" %% "spark-sql" % sparkVersion % "provided").cross(CrossVersion.for3Use2_13),
+      ("org.apache.spark" %% "spark-streaming-kafka-0-10" % sparkVersion)
+        .cross(CrossVersion.for3Use2_13),
+      ("org.apache.spark" %% "spark-sql" % sparkVersion % "provided")
+        .cross(CrossVersion.for3Use2_13),
       // https://mvnrepository.com/artifact/org.apache.spark/spark-sql-kafka-0-10
       ("org.apache.spark" %% "spark-sql-kafka-0-10" % sparkVersion).cross(CrossVersion.for3Use2_13),
       ("org.apache.spark" %% "spark-repl" % sparkVersion).cross(CrossVersion.for3Use2_13),
@@ -30,7 +29,6 @@ lazy val root = project
       "org.scalameta" %% "munit" % "0.7.29" % Test
     )
   )
-
 
 initialCommands += """
   import org.apache.spark.sql.SparkSession
@@ -52,4 +50,6 @@ cleanupCommands += """
   """
 
 // include the 'provided' Spark dependency on the classpath for `sbt run`
-Compile / run := Defaults.runTask(Compile / fullClasspath, Compile / run / mainClass, Compile / run / runner).evaluated
+Compile / run := Defaults
+  .runTask(Compile / fullClasspath, Compile / run / mainClass, Compile / run / runner)
+  .evaluated

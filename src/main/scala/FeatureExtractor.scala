@@ -1,4 +1,2 @@
 /* FeatureExtractor.scala */
-class FeatureExtractor {
-
-}
+class FeatureExtractor {}

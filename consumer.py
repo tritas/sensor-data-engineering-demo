@@ -53,6 +53,7 @@ def is_number(s):
     except ValueError:
         return False
 
+
 def printHistogram(time, rdd):
     c = rdd.collect()
     print("-------------------------------------------")
@@ -87,7 +88,7 @@ if __name__ == "__main__":
 
     counts = mqttStream \
         .filter(lambda message: is_number(message)) \
-        .map(lambda message: ( round(float(message) * 2, 0) / 2, 1 )) \
+        .map(lambda message: (round(float(message) * 2, 0) / 2, 1)) \
         .reduceByKeyAndWindow(operator.add, operator.sub, 15, 1) \
         .transform(lambda rdd: rdd.sortByKey())
 
